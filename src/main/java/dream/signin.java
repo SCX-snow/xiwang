@@ -25,15 +25,7 @@ public class signin {
         day=String.format("%tY"+"-"+"%tm"+"-"+"%td",date,date,date);
 
         try {
-            sql=con.prepareStatement("SELECT sendername FROM sign_in WHERE id = "+id);
-            res= sql.executeQuery();
-            if(res.next())
-            {
-                if(res.getString("sendername")!=null)
-                {
-                    sendername = res.getString("sendername");
-                }
-            }
+            sendername=name.find(sendername,sender,con);
             sql=con.prepareStatement("SELECT date FROM sign_in WHERE id = "+id);
             res=sql.executeQuery();
             if(res.next())
@@ -43,6 +35,7 @@ public class signin {
                     sql=con.prepareStatement("select getin from word where form = '签到_重复'");
                     res=sql.executeQuery();
                     res.next();
+                    lasttime.last();
                     return res.getString("getin");
                 }
                 else
@@ -89,15 +82,7 @@ public class signin {
         PreparedStatement sql;
         id=sender.substring(13,sender.length()-1);
         try {
-            sql=con.prepareStatement("SELECT sendername FROM sign_in WHERE id = "+id);
-            res= sql.executeQuery();
-            if(res.next())
-            {
-                if(res.getString("sendername")!=null)
-                {
-                    sendername = res.getString("sendername");
-                }
-            }
+            sendername=name.find(sendername,sender,con);
             sql=con.prepareStatement("SELECT mark FROM sign_in WHERE id = "+id);
             res=sql.executeQuery();
             if(res.next())
@@ -110,6 +95,7 @@ public class signin {
                 sql=con.prepareStatement("select getin from word where form = '好感度_后'");
                 res=sql.executeQuery();
                 res.next();
+                lasttime.last();
                 return temp+res.getString("getin");
             }
             else
@@ -117,6 +103,7 @@ public class signin {
                 sql=con.prepareStatement("select getin from  word where form = '好感度_无'");
                 res=sql.executeQuery();
                 res.next();
+                lasttime.last();
                 return res.getString("getin");
             }
         } catch (SQLException throwables) {
@@ -144,6 +131,7 @@ public class signin {
         res=sql.executeQuery();
         if(res.next())
         {
+            lasttime.last();
             return out+res.getString("getin");
         }
         else

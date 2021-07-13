@@ -29,6 +29,7 @@ public class taro {
                     res=sql.executeQuery();
                     if(res.next())
                     {
+                        lasttime.last();
                         return res.getString("getin");
                     }
                     else
@@ -43,6 +44,7 @@ public class taro {
                 res=sql.executeQuery();
                 if(res.next())
                 {
+                    lasttime.last();
                     return res.getString("getin");
                 }
                 else
@@ -56,15 +58,7 @@ public class taro {
         Date date = new Date();
         day=String.format("%tY"+"-"+"%tm"+"-"+"%td",date,date,date);
         try {
-            sql=con.prepareStatement("SELECT sendername FROM sign_in WHERE id = "+id);
-            res= sql.executeQuery();
-            if(res.next())
-            {
-                if(res.getString("sendername")!=null)
-                {
-                    sendername = res.getString("sendername");
-                }
-            }
+            sendername=name.find(sendername,sender,con);
             sql=con.prepareStatement("SELECT date FROM taro WHERE id = "+id);
             res= sql.executeQuery();
             if(res.next())
@@ -75,6 +69,7 @@ public class taro {
                     res=sql.executeQuery();
                     if(res.next())
                     {
+                        lasttime.last();
                         return res.getString("getin");
                     }
                     else
@@ -91,6 +86,7 @@ public class taro {
                     {
                         sql=con.prepareStatement("UPDATE taro SET date = '"+day+"' WHERE id = "+id);
                         sql.executeUpdate();
+                        lasttime.last();
                         return sendername+",我为您抽到了"+res.getString("word");
                     }
                     else
@@ -108,6 +104,7 @@ public class taro {
                 {
                     sql=con.prepareStatement("INSERT INTO taro (id,date) VALUES ("+id+",'"+day+"')");
                     sql.execute();
+                    lasttime.last();
                     return sendername+",我为您抽到了"+res.getString("word");
                 }
                 else
