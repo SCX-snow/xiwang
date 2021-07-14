@@ -79,6 +79,10 @@ public final class Dream extends JavaPlugin {
                     {
                         event.getSubject().sendMessage(new PlainText("").plus(new At(event.getSender().getId())).plus(new PlainText(name.change(sendername,sender,con))));
                     }
+                    else if(content.contains("功能"))
+                    {
+                        event.getSubject().sendMessage(new PlainText("").plus(new At(event.getSender().getId())).plus(new PlainText(info.function(con))));
+                    }
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
